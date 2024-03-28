@@ -1,55 +1,81 @@
-class Animal:
-    def sound(self):
-        print("Some sound: hrrr")
+# Багаторівневе успадкування
+class GrandParent:
+    def go(self):
+        print('I go')
 
-    def make_noise(self):
-        self.sound()
-        self.sound()
-        self.sound()
-
-
-class Dog(Animal):
-    def run(self):
-        print('dog is running')
-
-    def sound(self):
-        print("Hav, hav")
+    def method(self):
+        print('GrandParent method')
 
 
-class Cat(Animal):
-    def sound(self):
-        super().sound()
-        print("Miau")
+class Parent(GrandParent):
+    def walk(self):
+        print('I walk')
+
+    def go(self):
+        print('Parent go')
+
+    def method(self):
+        print('Parent method')
+
+
+class Child(Parent):
+    def method(self):
+        print('Child method')
+
+
+# child = Child()
+# child.go()
+# child.walk()
+# child.method()
+
+
+# Множинне успадкування
+class ClassA:
+    def methodA(self):
+        print('hello from A')
+
+    def method(self):
+        print('method from A')
+
+
+class ClassB:
+    def methodB(self):
+        print('hello from B')
+
+    def method(self):
+        print('method from B')
+
+
+class ClassC(ClassA, ClassB):
+    def methodA(self):
+        print('modified methodA')
 
     def get_super(self):
-        print(super())
+        print(super().methodA())
 
 
-# obj = Dog()
-# print(obj.sound())
-# print()
-# obj.make_noise()
+obj = ClassC()
+# obj.methodA()
+# obj.methodB()
+# obj.method()
 
-#cat = Cat()
-#cat.sound()
+# print(Child.__mro__)
+#
+# print(Child.mro())
+# child = Child()
+# child.method()
 
-class Figure:
-    def __init__(self, area):
-        self._area = area
-        print('init from Figure')
+# import time
+# print(type(time).__mro__)
+#
+#
+# def func():
+#     return 1
+#
+# print(type(func))
+#
+# func.attr = 3
+# print(func.attr)
 
-
-class Circle(Figure):
-    def __init__(self, area, radius):
-        super().__init__(area)
-        self._radius = radius
-
-        print('init from Circle')
-
-    def print_info(self):
-        print(f'{self._area=}')
-        print(f'{self._radius=}')
-
-
-obj = Circle(20, 3)
-obj.print_info()
+#print(ClassC.mro())
+print(obj.get_super())
