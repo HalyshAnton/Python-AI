@@ -10,3 +10,4 @@ yellowbrick
 scikit-surprise
 torch-summary
 pillow
+scikit-surprise
