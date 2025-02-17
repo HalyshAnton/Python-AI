@@ -1,0 +1,11 @@
+numpy
+pandas
+matplotlib
+scikit-learn
+lightgbm
+optuna
+nltk
+langchain
+yellowbrick
+scikit-surprise
+torch-summary
