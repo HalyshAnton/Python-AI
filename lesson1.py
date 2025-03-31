@@ -10,7 +10,7 @@ dotenv.load_dotenv()
 # print(res)
 
 llm = HuggingFaceEndpoint(
-    repo_id = 'mistralai/Mistral-7B-Instruct-v0.2',
+    repo_id = 'mistralai/Mistral-7B-Instruct-v0.3',
     top_k = 3,  # вибрати серед 3-ох найймовірніших слів
     top_p = 0.6, # вибрати серед слів, сума ймовірностей яких дорівнює 60%
     temperature = 0.7,
