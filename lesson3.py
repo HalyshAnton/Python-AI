@@ -166,15 +166,26 @@ chain2 = prompt | llm | parser
 
 # остаточна модель
 
+# user_question = input('Введіть питання: ')
+#
+# data = {'question': user_question}
+
+# response1 = chain1.invoke(data)
+# response2 = chain2.invoke(response1)
+#
+# print(response1)
+# print(response2)
+#
+# fact = response2['recommendations'][2]
+# print(fact)
+
+
+# об'єднання ланцюгів
+final_model = chain1 | chain2
+
 user_question = input('Введіть питання: ')
 
 data = {'question': user_question}
 
-response1 = chain1.invoke(data)
-response2 = chain2.invoke(response1)
-
-print(response1)
-print(response2)
-
-fact = response2['recommendations'][2]
-print(fact)
+response = final_model.invoke(data)
+print(response)
