@@ -4,7 +4,8 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import (
     AIMessage,
     HumanMessage,
-    SystemMessage
+    SystemMessage,
+    trim_messages
 )
 
 
@@ -57,6 +58,78 @@ messages = [
 #      'content': 'textghgkhg'},
 # ]
 
+# while True:
+#     user_input = input("Ви: ")
+#
+#     # зупинка розмови
+#     if user_input == '':
+#         break
+#
+#     # створити human message
+#     human_message = HumanMessage(content=user_input)
+#
+#     # добавляємо до історії
+#     messages.append(human_message)
+#
+#     # застосовуємо llm
+#     response = llm.invoke(messages)
+#
+#     # добавляємо до історії
+#     messages.append(response)
+#
+#     # print
+#     print(f'AI: {response.content}')
+#
+#     print(messages)
+
+
+
+# видалення зайвих повідомлень
+
+trimmer = trim_messages(
+    strategy='last', # залишати останні повідомлення
+    token_counter=len, # рахуємо кількість повідомлень
+    max_tokens=5, # залишати максимум 5 повідомлення
+    start_on='human', # історія завжди починатиметься з HumanMessage
+    end_on='human', # історія завжди закінчуватиметься з HumanMessage
+    include_system=True # SystemMessage не чіпати
+)
+
+while True:
+    user_input = input("Ви: ")
+
+    # зупинка розмови
+    if user_input == '':
+        break
+
+    # створити human message
+    human_message = HumanMessage(content=user_input)
+
+    # добавляємо до історії
+    messages.append(human_message)
+
+    # видалити лишнє з історії
+    messages = trimmer.invoke(messages)
+
+    # застосовуємо llm
+    response = llm.invoke(messages)
+
+    # добавляємо до історії
+    messages.append(response)
+
+    # print
+    print(f'AI: {response.content}')
+
+    # прінти
+    print('messages')
+    for mes in messages:
+        print(repr(mes))
+
+
+# об'єднати llm trimmer
+
+chain = trimmer | llm
+
 while True:
     user_input = input("Ви: ")
 
@@ -71,7 +144,7 @@ while True:
     messages.append(human_message)
 
     # застосовуємо llm
-    response = llm.invoke(messages)
+    response = chain.invoke(messages)
 
     # добавляємо до історії
     messages.append(response)
@@ -79,4 +152,7 @@ while True:
     # print
     print(f'AI: {response.content}')
 
-    print(messages)
+    # прінти
+    print('messages')
+    for mes in messages:
+        print(repr(mes))
